@@ -48,10 +48,13 @@ def getLinks(tweet):
 
 
 def printTwets(request, username):
-    url = 'https://twitrss.me/twitter_user_to_rss/?user=' + username
+    url = 'http://twitrss.me/twitter_user_to_rss/?user=' + username
     dict = feedparser.parse(url)
     response = ""
-    for index in range(5):
-        tweet = dict.entries[index].title + "<br/>"
-        response += tweet + getLinks(tweet) + "<br/>"
+    try:
+        for index in range(5):
+            tweet = dict.entries[index].title + "<br/>"
+            response += tweet + getLinks(tweet) + "<br/>"
+    except IndexError:
+        response += "Could not get all tweets"
     return HttpResponse(response)
